@@ -1,10 +1,17 @@
 import Login from '../pages/login.jsx'
 import Register from '../pages/register.jsx'
+
 import Landingpage from '../pages/Landingpage.jsx'
 import Venue from '../pages/Venue.jsx'
+
 import BookVenue from '../pages/BookVenue.jsx'
 import Summary from '../pages/BookSummary.jsx'
 import Conformation from '../pages/BookConformation.jsx'
+
+import UserDashboard from '../pages/UserDashboard.jsx'
+import UserBookings from '../pages/UserBookings.jsx'
+import UserQueries from '../pages/UserQueries.jsx'
+import UserSettings from '../pages/UserSettings.jsx'
 
 const routes = [
   {
@@ -26,6 +33,28 @@ const routes = [
   {
     path: '/venue',
     element: <Venue  />
+  },
+  {
+    path: '/user',
+    element: <UserDashboard  />,
+    children: [
+      {
+        path: 'dashboard',
+        element: <UserDashboard  />,
+      },
+      {
+        path: 'bookings',
+        element: <UserBookings  />,
+      },
+      {
+        path: 'help',
+        element: <UserQueries  />,
+      },
+      {
+        path: 'settings',
+        element: <UserSettings  />,
+      }
+    ]
   },
   {
     path: '/book',

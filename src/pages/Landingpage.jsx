@@ -42,7 +42,7 @@ function Landingpage() {
                         </div>
                         <div class="flex flex-col items-center my-6 bg-white rounded-xl shadow-2xl w-96 text-center p-5 py-7">
                             <div className='bg-[#f2f2f2] p-4 rounded-xl'><img src={joinus} alt="" /></div>
-                            <div className='font-bold'>Join us</div>
+                            <div className='font-bold'>My Bookings</div>
                             <div>Quick and Easy Registration: Get started on our software platform with a simple account creation process.</div>
                             <button type="button" class="text-black border-[#bababa] border-2 bg-[#f2f2f2] rounded-lg py-2.5 text-center mt-5 size-3/5">Sign in</button>
                         </div>
