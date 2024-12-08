@@ -5,7 +5,6 @@ import Landingpage from '../pages/Landingpage.jsx'
 import Venue from '../pages/Venue.jsx'
 
 import BookVenue from '../pages/BookVenue.jsx'
-import Summary from '../pages/BookSummary.jsx'
 import Conformation from '../pages/BookConformation.jsx'
 
 import UserDashboard from '../pages/UserDashboard.jsx'
@@ -36,7 +35,6 @@ const routes = [
   },
   {
     path: '/user',
-    element: <UserDashboard  />,
     children: [
       {
         path: 'dashboard',
@@ -58,11 +56,7 @@ const routes = [
   },
   {
     path: '/book',
-    element: <BookVenue  />
-  },
-  {
-    path: '/summary',
-    element: <Summary />
+    element: <BookVenue />
   },
   {
     path: '/conformation',

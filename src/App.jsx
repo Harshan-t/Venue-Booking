@@ -7,7 +7,9 @@ function App() {
 
   return (
     <>
-      <Outlet />
+      <div className='relative'>
+        <Outlet />
+      </div>
     </>
   )
 }
