@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 import Navbar from '../components/Navbar'
 import Titlebar from '../assets/Titlebar.png'
@@ -8,24 +9,46 @@ import { IoArrowForwardCircleOutline } from "react-icons/io5"
 
 function BookVenue() {
     const location = useLocation()
-    const data = location.state
+    const data = location.state || {}
 
-    const [Date, setDate] = useState()
+    const [Venue, setVenue] = useState(data.name)
+    const [Venuelocation, setVenuelocation] = useState(data.Location)
     const [st_time, setst_time] = useState()
     const [ed_time, seted_time] = useState()
+    const [Date, setDate] = useState()
     const [no_par, setno_par] = useState()
+    const [max_cap, setmax_cap] = useState(data.capacity)
     const [Desc, setDesc] = useState()
-    const [Venue, setVenue] = useState()
-    const [options, setoptions] = useState([
-        '---','Seminar Hall', 'Lab', 'Auditorium','IOT'
-    ])
+    const [options, setoptions] = useState([])
+
+    const setOptionsDetails = async () => {
+        const response = await axios.get('http://localhost:8000/venue')
+        const names = response.data.venues.map(venue => venue.name)
+        setoptions(names)
+    };
+
+    useEffect(() => {
+        setOptionsDetails()
+    }, []);
+
+    useEffect(() => {
+        const fetchdata = async () => {
+            const response = await axios.get('http://localhost:8000/venue')
+            const selectedvenue = response.data.venues.find(venue => Venue === venue.name)
+            if (selectedvenue) {
+                setmax_cap(selectedvenue.capacity)
+                setVenuelocation(selectedvenue.location)
+            }            
+        }
+        fetchdata()
+    }, [Venue]);
 
     return (
         <div>
             <div className='bg-[#F5F6FA] h-full min-h-screen'>
                 <Navbar />
                 <div className='relative'>
-                    <img src={Titlebar} alt="" className='w-full relative' />
+                    <img src={Titlebar} alt="" className='min-w-[1500px] w-[2000px] min-h-[200px] relative' />
                     <div className='z-50 flex justify-center absolute top-16 text-white font-bold text-4xl left-24'>Book Venue</div>
                     <div className='absolute top-28 left-24 text-white'>Home</div>
                 </div>
@@ -43,7 +66,7 @@ function BookVenue() {
 
                 <div className='text-3xl flex justify-center mt-6'>Select A venue</div>
                 <div className='flex flex-col items-center justify-center'>
-                    <div className='bg-white w-[50vw] p-8 rounded-lg shadow-2xl m-8'>
+                    <div className='bg-white w-[780px] p-8 rounded-lg shadow-2xl m-8'>
 
                         <form>
                             <div>
@@ -62,7 +85,7 @@ function BookVenue() {
                                     />
                                 </div>
                                 <div className='flex justify-between'>
-                                    <div className='w-[340px]'>
+                                    <div className='w-[345px]'>
                                         <label htmlFor="st_time" class="block mb-2 mt-4 text-base font-medium text-gray-900">Start time</label>
                                         <input
                                             type="time"
@@ -72,7 +95,7 @@ function BookVenue() {
                                             required
                                         />
                                     </div>
-                                    <div className='w-[350px]'>
+                                    <div className='w-[345px]'>
                                         <label htmlFor="ed-time" class="block mb-2 mt-4 text-base font-medium text-gray-900">End Time</label>
                                         <input
                                             type="time"
@@ -82,17 +105,6 @@ function BookVenue() {
                                             required
                                         />
                                     </div>
-                                </div>
-                                <div>
-                                    <label htmlFor="capacity" class="block mb-2 mt-4 text-base font-medium text-gray-900">No. of Participants</label>
-                                    <input
-                                        type="number"
-                                        id="capacity"
-                                        placeholder='Enter the no. of Participants'
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 focus:outline-none focus:border-[#1a73e8] focus:shadow-md"
-                                        onChange={(e) => setno_par(e.target.value)}
-                                        required
-                                    />
                                 </div>
 
                                 <div>
@@ -111,6 +123,42 @@ function BookVenue() {
                                             ))
                                         }
                                     </select>
+                                    <div >
+                                        <label htmlFor="capacity" class="block mb-2 mt-4 text-base font-medium text-gray-900">Location</label>
+                                        <input
+                                            type="text"
+                                            id="capacity"
+                                            placeholder='Location'
+                                            value={Venuelocation}
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 cursor-default focus:outline-none"
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className='flex justify-between'>
+                                        <div className='w-[345px]'>
+                                            <label htmlFor="capacity" class="block mb-2 mt-4 text-base font-medium text-gray-900">No. of Participants</label>
+                                            <input
+                                                type="number"
+                                                id="participants"
+                                                placeholder='Enter the no. of Participants'
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 focus:outline-none focus:border-[#1a73e8] focus:shadow-md"
+                                                onChange={(e) => setno_par(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className='w-[345px]'>
+                                            <label htmlFor="capacity" class="block mb-2 mt-4 text-base font-medium text-gray-900">Maximum Capacity</label>
+                                            <input
+                                                type="number"
+                                                id="capacity"
+                                                placeholder='Maximum Capacity'
+                                                value={max_cap}
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg block w-full p-2.5 cursor-default focus:outline-none"
+                                                readOnly
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div>
                                     <label htmlFor="venue" class="block mb-2 mt-4 text-base font-medium text-gray-900">Event Description</label>
@@ -128,11 +176,13 @@ function BookVenue() {
                                 <button type="submit" class="flex items-center justify-center text-white mr-4 bg-[#504a61] hover:bg-[#6f6787] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center"><IoArrowForwardCircleOutline className='mr-1 mt-[3px] size-[20px] stroke-1 rotate-180' />Back</button>
                             </Link>
                             <Link to="/conformation" state={{
+                                venue: Venue,
+                                location: Venuelocation,
                                 Date: Date,
                                 st_time: st_time,
                                 ed_time: ed_time,
                                 no_par: no_par,
-                                Venue: Venue,
+                                max_cap: max_cap,
                                 Desc: Desc
                             }}>
                                 <button type="submit" class="flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center">Next<IoArrowForwardCircleOutline className='ml-1 mt-[3px] size-[20px] stroke-1' /></button>

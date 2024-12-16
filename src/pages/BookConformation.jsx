@@ -1,8 +1,11 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import axios from "axios"
+
 import Navbar from '../components/Navbar'
-import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import Titlebar from '../assets/Titlebar.png'
+
+import { IoArrowForwardCircleOutline } from "react-icons/io5";
 
 function Detail({ label, value }) {
     return (
@@ -13,19 +16,45 @@ function Detail({ label, value }) {
             {value}
         </div>
     )
-
 }
 
 function Conformation() {
     const location = useLocation()
     const data = location.state
+    const navigate = useNavigate()
+
+    const handleConfirm = async () => {
+        try {
+            const payload = {
+                Venue_Name: data.venue,
+                Location: data.location,
+                Booking_Date: data.Date,
+                From_Time: data.st_time,
+                To_Time: data.ed_time,
+                Booked_Capacity: data.no_par,
+                Venue_Capacity: data.max_cap,
+                Staff: 'Arvindh',
+                Description: data.Desc,
+            };
+
+            const response = await axios.post("http://localhost:8000/staffbookings", payload);
+
+            if (response.status === 200) {
+                console.log("Booking confirmed successfully!");
+                navigate("/home");
+            }
+        } catch (error) {
+            console.error("Error confirming booking:", error);
+            alert("Failed to confirm booking. Please try again.");
+        }
+    };
 
     return (
         <div>
             <div className='bg-[#F5F6FA] h-full min-h-screen'>
                 <Navbar />
                 <div className='relative'>
-                    <img src={Titlebar} alt="" className='w-full relative' />
+                    <img src={Titlebar} alt="" className='min-w-[1500px] w-[2000px] min-h-[200px] relative' />
                     <div className='z-50 flex justify-center absolute top-16 text-white font-bold text-4xl left-24'>Book Venue</div>
                     <div className='absolute top-28 left-24 text-white'>Home</div>
                 </div>
@@ -45,7 +74,7 @@ function Conformation() {
                 <div className='flex justify-center text-[#6b7385]'>Booking confirmed. Contact support for changes/inquiries. Enjoy your Booking experience with us.</div>
 
                 <div className='flex flex-col items-center justify-center'>
-                    <div className='bg-white w-[50vw] p-8 rounded-lg shadow-2xl m-8'>
+                    <div className='bg-white w-[780px] p-8 rounded-lg shadow-2xl m-8'>
 
                         <div className='text-2xl font-[500] mb-2'>
                             Booked Details
@@ -58,18 +87,17 @@ function Conformation() {
                                 <Detail label='Start Time' value={data.st_time} />
                                 <Detail label='End Time' value={data.ed_time} />
                             </div>
-                            <Detail label='No. of Participants' value={data.no_par} />
-                            <Detail label='Venue' value={data.Venue} />
+                            <div className="flex justify-between max-w-[500px]">
+                                <Detail label='No. of Participants' value={data.no_par} />
+                                <Detail label='Maximum Capacity' value={data.max_cap} />
+                            </div>
+                            <Detail label='Venue' value={data.venue} />
                             <Detail label='Description' value={data.Desc} />
                         </div>
 
                         <div className='flex justify-between mt-5'>
-                            <Link to="/book">
-                                <button type="submit" class="flex items-center justify-center text-white mr-4 bg-[#504a61] hover:bg-[#6f6787] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center"><IoArrowForwardCircleOutline className='mr-1 mt-[3px] size-[20px] stroke-1 rotate-180' />Back</button>
-                            </Link>
-                            <Link to="/home">
-                                <button type="submit" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full h-full sm:w-auto px-4 py-2.5 text-center">Confirm</button>
-                            </Link>
+                            <button onClick={() => navigate('/book')} type="button" class="flex items-center justify-center text-white mr-4 bg-[#504a61] hover:bg-[#6f6787] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center"><IoArrowForwardCircleOutline className='mr-1 mt-[3px] size-[20px] stroke-1 rotate-180' />Back</button>
+                            <button onClick={handleConfirm} type="button" class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full h-full sm:w-auto px-4 py-2.5 text-center">Confirm</button>
                         </div>
                     </div>
                 </div>

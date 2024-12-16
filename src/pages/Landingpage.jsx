@@ -4,16 +4,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx'
 
 import myImage from '../assets/Image.png'
-import joinus from '../assets/joinus.png'
 import Book from '../assets/Book.png'
-import Venue from '../assets/Venue.png'
+import Venuepng from '../assets/Venuepng.png'
+import { MdOutlineLiveHelp } from "react-icons/md";
 
 function Landingpage() {
     const navigate = useNavigate();
 
     return (
         <div >
-            <div className='bg-[#F5F6FA]'>
+            <div className='bg-[#F5F6FA] min-w-[1200px]'>
                 <Navbar />
                 <div className='flex justify-center items-center mt-20'>
                     <div className='max-w-xl min-w-xl tracking-wide font-sans flex flex-col'>
@@ -33,13 +33,13 @@ function Landingpage() {
                     <div className='flex justify-center text-[#737373] text-3xl mt-5'>Simplifying the booking process for coaches, venues, and athletes.</div>
                     <div className='flex justify-evenly'>
                         <div class="flex flex-col items-center my-6 bg-white border border-[#eaedf0] rounded-xl shadow-2xl w-96 text-center p-5 py-7">
-                            <div className='bg-[#f2f2f2] p-4 rounded-xl'><img src={joinus} alt="" /></div>
-                            <div className='font-bold'>Join us</div>
+                            <div className='bg-[#f2f2f2] p-4 rounded-xl'><MdOutlineLiveHelp size="80px" color='#5b5b5b' strokeWidth={0} /></div>
+                            <div className='font-bold'>Queries</div>
                             <div>Quick and Easy Registration: Get started on our software platform with a simple account creation process.</div>
-                            <button type='submit' onClick={() => { navigate("/register") }} class="text-black border-[#bababa] border-2 bg-[#f2f2f2] rounded-lg py-2.5 text-center mt-5 size-3/5">Register</button>
+                            <button type='submit' onClick={() => { navigate("/user/help") }} class="text-black border-[#bababa] border-2 bg-[#f2f2f2] rounded-lg py-2.5 text-center mt-5 size-3/5">Help</button>
                         </div>
                         <div class="flex flex-col items-center my-6 bg-white border border-[#eaedf0] rounded-xl shadow-2xl w-96 text-center p-5 py-7">
-                            <div className='bg-[#f2f2f2] p-4 rounded-xl'><img src={Venue} alt="" /></div>
+                            <div className='bg-[#f2f2f2] p-4 rounded-xl'><img src={Venuepng} alt="" /></div>
                             <div className='font-bold'>Venues</div>
                             <div className='w-64'>View our Venues with seamless experience with detailed info of venues </div>
                             <button type="button" onClick={() => { navigate("/venue") }} class="text-black border-[#bababa] border-2 bg-[#f2f2f2] rounded-lg py-2.5 text-center mt-5 size-3/5">Venues</button>

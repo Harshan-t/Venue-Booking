@@ -11,7 +11,7 @@ function UserBookings() {
             <div>
                 <Navbar />
                 <div className='relative'>
-                    <img src={Titlebar} alt="" className='w-full relative' />
+                    <img src={Titlebar} alt="" className='min-w-[1500px] w-[2000px] min-h-[200px] relative' />
                     <div className='z-50 flex justify-center absolute top-16 text-white font-bold text-4xl left-24'>User Profile</div>
                     <div className='absolute top-28 left-24 text-white'>Home</div>
                 </div>
@@ -39,7 +39,7 @@ function UserBookings() {
                 <div className="flex justify-center">
                     <div className="relative shadow-lg flex flex-col bg-white mt-5 mb-5 p-10 rounded-lg w-[1200px]">
                         <div className="text-2xl font-semibold mb-6">My Bookings</div>
-                        <Table />
+                        <Table staffmail="Harshan" />
                     </div>
                 </div>
             </div>
